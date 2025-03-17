@@ -7,7 +7,10 @@ function Image({src,className,w,h,alt}) {
     
     width={w}
     height={h}
-    
+    transformation={[{
+        width:w,
+        height:h,
+    }]}
     />
   )
 }
