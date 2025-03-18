@@ -109,7 +109,7 @@ const FeaturedPosts = () => {
               <h1 className="font-semibold">02.</h1>
               <Link className="text-blue-800">Web Design </Link>
               <span className="text-gray-500 text-sm">2 days ago</span>
-            </div>
+            </div>``
             {/*title*/}
             <Link
               to="/test"
