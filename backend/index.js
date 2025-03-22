@@ -20,7 +20,16 @@ app.use("/posts", postRouter);
 app.use("/comments", commentRouter);
 
 
+app.use((error,req,res,next)=>{
+res.status(error.status || 500)
+  res.json({
+    message:error.message || " somthing went wrong ",
+    status:error.status,
+    stack:error.stack,
+  });
 
+
+});
 
 
 
