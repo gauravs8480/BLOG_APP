@@ -1,21 +1,17 @@
 import express from "express";
-import { getPosts,getPost,createPost,deletePost } from "../controllers/post.controller.js";
-const router=express.Router();
+import {
+  getPosts,
+  getPost,
+  createPost,
+  deletePost,
+  uploadAuth,
+} from "../controllers/post.controller.js";
+const router = express.Router();
 
+router.get("/upload-auth",uploadAuth)
+router.get("/", getPosts); // Fetch all posts
+router.get("/:slug", getPost); // Fetch a single post by its slug
+router.post("/", createPost); // Create a new post
+router.delete("/:id", deletePost); // Delete a post by its ID
 
-
-
-
-
-
-
-
-
-
-router.get("/",getPosts);
-router.get("/:slug",getPost );
-router.get("/",createPost);
-router.delete("/:id",deletePost);
-
-
- export default router
+export default router;

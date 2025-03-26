@@ -2,8 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import Image from './Image';
 import { Link } from 'react-router-dom';
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-
+import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from "@clerk/clerk-react";
 
 
 
