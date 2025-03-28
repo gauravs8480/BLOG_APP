@@ -15,6 +15,7 @@ const Write = () => {
   const [img, setImg] = useState("");
   const [video, setVideo] = useState("");
   const [progress, setProgress] = useState(0);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     img && setValue((prev) => prev + `<p><image src="${img.url}"/></p>`);
@@ -28,7 +29,6 @@ const Write = () => {
   }, [video]);
 
   const navigate = useNavigate();
-
   const { getToken } = useAuth();
 
   const mutation = useMutation({
@@ -44,6 +44,9 @@ const Write = () => {
       toast.success("Post has been created");
       navigate(`/${res.data.slug}`);
     },
+    onError: (error) => {
+      toast.error(error.response?.data?.error || "Failed to create post");
+    },
   });
 
   if (!isLoaded) {
@@ -58,15 +61,32 @@ const Write = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
+    const title = formData.get("title");
+    const content = value;
+
+    const newErrors = {};
+    if (!title.trim()) {
+      newErrors.title = "Title is required";
+    }
+    if (!content.trim()) {
+      newErrors.content = "Content is required";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    setErrors({});
+
     const data = {
       img: cover.filePath || "",
-      title: formData.get("title"),
+      title: title,
       category: formData.get("category"),
       desc: formData.get("desc"),
-      content: value,
+      content: content,
     };
-
-    console.log(data);
 
     mutation.mutate(data);
   };
@@ -76,23 +96,34 @@ const Write = () => {
       <h1 className="text-cl font-light">Create a New Post</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
         <Upload type="image" setProgress={setProgress} setData={setCover}>
-          <button className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white">
+          <button
+            type="button"
+            className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white"
+          >
             Add a cover image
           </button>
         </Upload>
-        <input
-          className="text-4xl font-semibold bg-transparent outline-none"
-          type="text"
-          placeholder="My Awesome Story"
-          name="title"
-        />
+        <div>
+          <input
+            className={`text-4xl font-semibold bg-transparent outline-none border-b-2 ${
+              errors.title ? "border-red-500" : "border-transparent"
+            }`}
+            type="text"
+            placeholder="My Awesome Story"
+            name="title"
+            required
+          />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
+        </div>
         <div className="flex items-center gap-4">
-          <label htmlFor="" className="text-sm">
+          <label htmlFor="category" className="text-sm">
             Choose a category:
           </label>
           <select
             name="category"
-            id=""
+            id="category"
             className="p-2 rounded-xl bg-white shadow-md"
           >
             <option value="general">General</option>
@@ -108,31 +139,38 @@ const Write = () => {
           name="desc"
           placeholder="A Short Description"
         />
-        <div className="flex flex-1 ">
+        <div className="flex flex-1">
           <div className="flex flex-col gap-2 mr-2">
             <Upload type="image" setProgress={setProgress} setData={setImg}>
-              🌆
+              <button type="button">🌆</button>
             </Upload>
             <Upload type="video" setProgress={setProgress} setData={setVideo}>
-              ▶️
+              <button type="button">▶️</button>
             </Upload>
           </div>
-          <ReactQuill
-            theme="snow"
-            className="flex-1 rounded-xl bg-white shadow-md"
-            value={value}
-            onChange={setValue}
-            readOnly={0 < progress && progress < 100}
-          />
+          <div className="flex-1">
+            <ReactQuill
+              theme="snow"
+              className={`flex-1 rounded-xl bg-white shadow-md ${
+                errors.content ? "border-2 border-red-500" : ""
+              }`}
+              value={value}
+              onChange={setValue}
+              readOnly={0 < progress && progress < 100}
+            />
+            {errors.content && (
+              <p className="text-red-500 text-sm mt-1">{errors.content}</p>
+            )}
+          </div>
         </div>
         <button
           disabled={mutation.isPending || (0 < progress && progress < 100)}
           className="bg-blue-800 text-white font-medium rounded-xl mt-4 p-2 w-36 disabled:bg-blue-400 disabled:cursor-not-allowed"
+          type="submit"
         >
           {mutation.isPending ? "Loading..." : "Send"}
         </button>
-        {"Progress:" + progress}
-        {/* {mutation.isError && <span>{mutation.error.message}</span>} */}
+        {"Progress: " + progress}
       </form>
     </div>
   );

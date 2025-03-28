@@ -11,7 +11,7 @@ const authenticator = async () => {
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(
-                `Request failed with status ${response.status}: ${errorText}`
+                `Request failed with status in uploadauth ${response.status}: ${errorText}`
             );
         }
 
@@ -53,7 +53,7 @@ const ref =useRef(null);
             urlEndpoint={import.meta.env.VITE_IK_URL_ENDPOINT}
             authenticator={authenticator}
         >
-            <p>Upload an image</p>
+            <p>Upload</p>
             <IKUpload
              
                 useUniqueFileName

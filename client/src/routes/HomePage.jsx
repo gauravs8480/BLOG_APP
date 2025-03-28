@@ -1,38 +1,41 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import MainCategories from '../components/MainCategories'
-import FeaturedPosts from '../components/FeaturedPosts'
-import PostList from '../components/PostList'
+import React from "react";
+import { Link } from "react-router-dom";
+import MainCategories from "../components/MainCategories";
+import FeaturedPosts from "../components/FeaturedPosts";
+import PostList from "../components/PostList";
 
 const HomePage = () => {
   return (
-    <div className='mt-4 flex flex-col gap-4'>
-{/*BREADCRUMB*/}
-<div className='flex gap-4'>
+    <div className="mt-4 flex flex-col gap-4">
+      {/*BREADCRUMB*/}
+      <div className="flex gap-4">
+        <Link to="/">Home</Link>
+        <span>.</span>
+        <span className="text-blue-800">Blogs and articles</span>
+      </div>
 
-<Link to="/">Home</Link>
-<span>.</span>
-<span className='text-blue-800'>Blogs and articles</span>
+      {/*INTRODUCTION*/}
 
-</div>
-
-{/*INTRODUCTION*/}
-
-<div className='flex items-center justify-between'>
-
-{/*titles*/}
-<div className=''>
-<h1 className='text-gray-800 text-2xl md:text-5xl lg:text-6xl font-bold'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
-<p className='mt-8 text-md md:text-xl' >  at aliquid consectetur sed quo a ipsam suscipit alias voluptas eveniet eligendi et libero ut ad recusandae. Quia, minima quas?</p>
-</div>
-{/*Animated button*/}
-<Link to="write" className="hidden md:block relative">
+      <div className="flex items-center justify-between">
+        {/*titles*/}
+        <div className="">
+          <h1 className="text-gray-800 text-2xl md:text-5xl lg:text-6xl font-bold">
+            Lorem Chronicles: A Journey through Thoughts and Ideas
+          </h1>
+          <p className="mt-8 text-md md:text-xl">
+            {" "}
+            An exploration of choices, freedom, and the complexities of
+            responsibility, highlighting how even the smallest decisions can
+            shape life's path
+          </p>
+        </div>
+        {/*Animated button*/}
+        <Link to="write" className="hidden md:block relative">
           <svg
             viewBox="0 0 200 200"
             width="200"
             height="200"
-            // className="text-lg tracking-widest animate-spin animatedButton"
-            className="text-lg tracking-widest"
+            className="text-lg tracking-widest animate-spin animatedButton"
           >
             <path
               id="circlePath"
@@ -63,28 +66,19 @@ const HomePage = () => {
             </svg>
           </button>
         </Link>
+      </div>
 
-</div>
-
-
-{/*categories*/}
-<MainCategories/>
-{/*FEATURED POST*/}
-<FeaturedPosts/>
-{/*POST LIST*/}
-<div>
-
-<h1 className='my-8 text-2xl text-gray-600 '>Recent Posts</h1>
-<PostList/>
-
-</div>
-
-
-
-
-
+      {/*categories*/}
+      <MainCategories />
+      {/*FEATURED POST*/}
+      <FeaturedPosts />
+      {/*POST LIST*/}
+      <div>
+        <h1 className="my-8 text-2xl text-gray-600 ">Recent Posts</h1>
+        <PostList />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
